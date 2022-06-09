@@ -1,17 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
+            <link href='http://fonts.googleapis.com/css?family=Signika:400,300,600,700' rel='stylesheet' type='text/css'>
+            <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/css/404-animation.css') }}" rel="stylesheet">
         {% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+            <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/holder.min.js"></script>
         {% endblock %}
+
+
     </head>
     <body>
         {% block body %}{% endblock %}
