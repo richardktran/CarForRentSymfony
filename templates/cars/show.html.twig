@@ -1,0 +1,9 @@
+<h1>Show detail of car with id {{car.id}}</h1>
+<ul>
+        <li>{{ car.name }}</li>
+        <li>{{ car.type }}</li>
+        <li>{{ car.brand.name }}</li>
+        <li>{{car.price}}</li>
+        <li><img src="{{ asset(''~car.image~'') }}"  alt="aaa"/></li>
+
+</ul>
