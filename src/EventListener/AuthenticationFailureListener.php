@@ -14,7 +14,7 @@ class AuthenticationFailureListener
 
     public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event)
     {
-        $response = $this->error('Credentials invalid', Response::HTTP_UNAUTHORIZED);
+        $response = $this->error('Credentials invalid', Response::HTTP_BAD_REQUEST);
 
         $event->setResponse($response);
     }
