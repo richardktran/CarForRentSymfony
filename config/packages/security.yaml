@@ -58,7 +58,7 @@ security:
         - { path: ^/api/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/api/cars, roles: PUBLIC_ACCESS }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+#        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

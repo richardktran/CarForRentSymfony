@@ -162,4 +162,5 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this;
     }
 
+
 }

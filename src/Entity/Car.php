@@ -177,4 +177,20 @@ class Car extends BaseEntity
         return $this;
     }
 
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'description' => $this->getDescription(),
+            'color' => $this->getColor(),
+            'brand' => $this->getBrand(),
+            'price' => $this->getPrice(),
+            'seats' => $this->getSeats(),
+            'year' => $this->getYear(),
+            'thumbnail' => $this->getThumbnail()->jsonSerialize(),
+            'createdUser' => $this->getCreatedUser()->jsonSerialize()
+        ];
+    }
+
 }

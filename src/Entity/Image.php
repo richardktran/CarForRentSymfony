@@ -52,4 +52,12 @@ class Image extends BaseEntity
 
         return $this;
     }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'path' => $this->getPath()
+        ];
+    }
 }
