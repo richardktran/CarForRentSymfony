@@ -10,6 +10,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class AuthenticationSuccessListener
 {
+    use JsonResponseTrait;
+
     private SerializerInterface $serializer;
 
     public function __construct(SerializerInterface $serializer)
@@ -17,19 +19,19 @@ class AuthenticationSuccessListener
         $this->serializer = $serializer;
     }
 
-    public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
+    public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event): void
     {
-        $data = [];
         $token = $event->getData()['token'];
         $user = $event->getUser();
 
         if (!$user instanceof UserInterface) {
             return;
         }
-        $jsonUser = $this->serializer->serialize($user, JsonEncoder::FORMAT);
-        $data[] = [
-            'data' => $jsonUser,
-            'token' => $token
+        $userJson = $user->jsonSerialize();
+        $userJson['token'] = $token;
+        $data = [
+            'status' => 'success',
+            'data' => $userJson
         ];
 
         $event->setData($data);
