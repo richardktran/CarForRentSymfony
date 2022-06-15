@@ -6,8 +6,14 @@ use App\Repository\CarRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CarRepository::class)]
-class Car
+class Car extends BaseEntity
 {
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime("now");
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -36,6 +42,15 @@ class Car
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
+
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $thumbnail;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $createdUser;
+
 
     public function getId(): ?int
     {
@@ -137,4 +152,29 @@ class Car
 
         return $this;
     }
+
+    public function getThumbnail(): ?Image
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail(Image $thumbnail): self
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    public function getCreatedUser(): ?User
+    {
+        return $this->createdUser;
+    }
+
+    public function setCreatedUser(?User $createdUser): self
+    {
+        $this->createdUser = $createdUser;
+
+        return $this;
+    }
+
 }
