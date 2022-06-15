@@ -21,7 +21,7 @@ class ExceptionListener
         } elseif ($exception instanceof HttpExceptionInterface) {
             $response = $this->error($exception->getMessage(), $exception->getStatusCode());
         } else {
-            $response = $this->error("Internal error", $exception->getStatusCode());
+            $response = $this->error("Internal error", Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         // sends the modified response object to the event
