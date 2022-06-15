@@ -3,11 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\CarRepository;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CarRepository::class)]
-class Car extends BaseEntity
+class Car
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,30 +16,26 @@ class Car extends BaseEntity
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    private $type;
-
-    #[ORM\Column(type: 'integer')]
-    private $price;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $image;
-
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    #[Gedmo\Timestampable(on: 'create')]
-    #[ORM\Column(type: 'datetime')]
-    private $createdAt;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $color;
 
-    #[ORM\ManyToOne(targetEntity: Brand::class, inversedBy: 'cars')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\Column(type: 'string', length: 255)]
     private $brand;
 
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime("now");
-    }
+    #[ORM\Column(type: 'float')]
+    private $price;
+
+    #[ORM\Column(type: 'integer')]
+    private $seats;
+
+    #[ORM\Column(type: 'integer')]
+    private $year;
+
+    #[ORM\Column(type: 'datetime')]
+    private $createdAt;
 
     public function getId(): ?int
     {
@@ -59,43 +54,6 @@ class Car extends BaseEntity
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(int $price): self
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -104,6 +62,66 @@ class Car extends BaseEntity
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    public function getBrand(): ?string
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(string $brand): self
+    {
+        $this->brand = $brand;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getSeats(): ?int
+    {
+        return $this->seats;
+    }
+
+    public function setSeats(int $seats): self
+    {
+        $this->seats = $seats;
+
+        return $this;
+    }
+
+    public function getYear(): ?int
+    {
+        return $this->year;
+    }
+
+    public function setYear(int $year): self
+    {
+        $this->year = $year;
 
         return $this;
     }
@@ -119,17 +137,4 @@ class Car extends BaseEntity
 
         return $this;
     }
-
-    public function getBrand(): ?Brand
-    {
-        return $this->brand;
-    }
-
-    public function setBrand(?Brand $brand): self
-    {
-        $this->brand = $brand;
-
-        return $this;
-    }
-
 }
