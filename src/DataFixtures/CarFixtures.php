@@ -43,9 +43,9 @@ class CarFixtures extends Fixture implements DependentFixtureInterface
     private function getCarData(): array
     {
         return [
-            [1, 'Mercedes C200 Exclusive', 'Mercedes C200 Exclusive Description', 'Red', 'Mercedes', 546, 4, 2020],
-            [2, 'Vinfast VF9', 'Vinfast VF9 Description', 'White', 'Vinfast', 457, 7, 2022],
-            [3, 'Kia Carens AT', 'Kia Carens AT description', 'Blue', 'Kia', 435, 7, 2019],
+            [1, 'Mercedes C200 Exclusive', 'Mercedes C200 Exclusive Description', 'red', 'Mercedes', 546, 4, 2020],
+            [2, 'Vinfast VF9', 'Vinfast VF9 Description', 'white', 'Vinfast', 457, 7, 2022],
+            [3, 'Kia Carens AT', 'Kia Carens AT description', 'blue', 'Kia', 435, 7, 2019],
         ];
     }
 

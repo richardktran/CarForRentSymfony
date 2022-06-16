@@ -4,9 +4,11 @@ namespace App\Controller\API;
 
 use App\Entity\Car;
 use App\Repository\CarRepository;
+use App\Service\CarService;
 use App\Traits\JsonResponseTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/cars', name: 'car_')]
@@ -14,17 +16,18 @@ class CarController extends AbstractController
 {
     use JsonResponseTrait;
 
-    private CarRepository $carRepository;
+    private CarService $carService;
 
-    public function __construct(CarRepository $carRepository)
+    public function __construct(CarService $carService)
     {
-        $this->carRepository = $carRepository;
+        $this->carService = $carService;
     }
 
     #[Route('/', name: 'list')]
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $cars = $this->carRepository->findAll();
+        $conditions = $request->query->all();
+        $cars = $this->carService->findAll($conditions);
         $result = [];
         foreach ($cars as $car) {
             $result[] = $car->jsonSerialize();
