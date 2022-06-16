@@ -31,12 +31,16 @@ class CarService
         $cars = $this->andFilter($cars, 'brand', $brand);
         $cars = $this->andFilter($cars, 'seats', $seats);
         $cars = $this->sortBy($cars, $orderBy);
+        $cars->setMaxResults($limit)->setFirstResult(0);
 
         return $cars->getQuery()->getResult();
     }
 
-    private function sortBy(QueryBuilder $cars, string $orderBy)
+    private function sortBy(QueryBuilder $cars, string $orderBy): QueryBuilder
     {
+        if (empty($orderBy)) {
+            return $cars;
+        }
         $orderBy = explode('.', $orderBy);
         $field = $orderBy[0];
         $order = $orderBy[1];
@@ -57,18 +61,18 @@ class CarService
 
     private function filter(QueryBuilder $cars, string $field, mixed $value): QueryBuilder
     {
-        if (!empty($value)) {
-            $cars = $cars->where("c.$field = :$field")->setParameter($field, $value);
+        if (empty($value)) {
+            return $cars;
         }
-        return $cars;
+        return $cars->where("c.$field = :$field")->setParameter($field, $value);
     }
 
     private function andFilter(QueryBuilder $cars, string $field, mixed $value): QueryBuilder
     {
-        if (!empty($value)) {
-            $cars = $cars->andWhere("c.$field = :$field")->setParameter($field, $value);
+        if (empty($value)) {
+            return $cars;
         }
-        return $cars;
+        return $cars->andWhere("c.$field = :$field")->setParameter($field, $value);
     }
 
 }
