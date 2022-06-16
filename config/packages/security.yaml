@@ -35,8 +35,6 @@ security:
                 enable_csrf: true
                 default_target_path: login_success
                 always_use_default_target_path: true
-            #            json_login:
-            #                check_path: api_login
             logout:
                 path: logout
                 target: login
