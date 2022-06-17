@@ -4,14 +4,12 @@ namespace App\Transformer;
 
 use App\Entity\User;
 
-class UserTransformer
+class UserTransformer extends BaseTransformer
 {
+    const ALLOW = ['id', 'email'];
+
     public function toArray(User $user): array
     {
-        return [
-            'id' => $user->getId(),
-            'email' => $user->getEmail(),
-            'roles' => $user->getRoles(),
-        ];
+        return $this->transform($user, static::ALLOW);
     }
 }

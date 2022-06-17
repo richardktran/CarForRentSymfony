@@ -156,6 +156,11 @@ class Car extends BaseEntity
         return $this->thumbnail;
     }
 
+    public function getThumbnailPath()
+    {
+        return $this->getThumbnail()->getPath();
+    }
+
     public function setThumbnail(Image $thumbnail): self
     {
         $this->thumbnail = $thumbnail;
@@ -174,5 +179,5 @@ class Car extends BaseEntity
 
         return $this;
     }
-    
+
 }
