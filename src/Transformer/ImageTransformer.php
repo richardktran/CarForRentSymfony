@@ -4,13 +4,12 @@ namespace App\Transformer;
 
 use App\Entity\Image;
 
-class ImageTransformer
+class ImageTransformer extends BaseTransformer
 {
+    const ALLOW = ['id', 'path'];
+
     public function toArray(Image $image): array
     {
-        return [
-            'id' => $image->getId(),
-            'path' => $image->getPath()
-        ];
+        return $this->transform($image, static::ALLOW);
     }
 }
