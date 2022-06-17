@@ -12,6 +12,7 @@ class CarRequest extends BaseRequest
     const ORDER_BY_LIST = ['asc', 'desc'];
     const DEFAULT_ORDER_TYPE = 'createdAt';
     const DEFAULT_ORDER_BY = 'desc';
+    const DEFAULT_OFFSET = 0;
 
     #[Assert\Type('string')]
     private $color;

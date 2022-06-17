@@ -33,7 +33,7 @@ class CarRepository extends BaseRepository
         $cars = $this->andFilter($cars, 'brand', $carRequest->getBrand());
         $cars = $this->andFilter($cars, 'seats', $carRequest->getSeats());
         $cars = $this->sortBy($cars, $carRequest->getOrderType(), $carRequest->getOrderBy());
-        $cars->setMaxResults($carRequest->getLimit())->setFirstResult(0);
+        $cars->setMaxResults($carRequest->getLimit())->setFirstResult(CarRequest::DEFAULT_OFFSET);
         return $cars->getQuery()->getResult();
     }
 
