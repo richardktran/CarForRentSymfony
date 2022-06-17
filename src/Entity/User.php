@@ -13,11 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime("now");
-        $this->cars = new ArrayCollection();
-    }
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -38,6 +35,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
 
     #[ORM\OneToMany(mappedBy: 'createdUser', targetEntity: Car::class)]
     private $cars;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime("now");
+        $this->cars = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -72,7 +75,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public function getRoles(): array
     {
         $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
+        $roles[] = static::ROLE_USER;
 
         return array_unique($roles);
     }
@@ -106,18 +109,6 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     {
         // If you store any temporary, sensitive data on the user, clear it here
 //        $this->plainPassword = null;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function jsonSerialize(): array
-    {
-        return [
-            'id' => $this->getId(),
-            'email' => $this->getEmail(),
-            'roles' => $this->getRoles(),
-        ];
     }
 
     public function getCreatedAt(): ?\DateTimeInterface

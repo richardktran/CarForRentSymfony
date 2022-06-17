@@ -6,100 +6,124 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CarRequest extends BaseRequest
 {
-    #[Assert\Blank]
-    private ?string $color = '';
+    #[Assert\Type('string')]
+    private $color;
 
     #[Assert\Type('string')]
-    private ?string $brand = '';
+    private $brand;
 
-    #[Assert\Type('int')]
-    private ?int $seats = 0;
+    #[Assert\Type('integer')]
+    #[Assert\Choice(
+        choices: [4, 7, 16],
+    )]
+    private $seats;
 
-    #[Assert\Type('int')]
-    private ?int $limit = 10;
+    #[Assert\Type('integer')]
+    private int $limit = 10;
 
 
     #[Assert\Choice(
-        choices: ['created', 'price'],
+        choices: ['createdAt', 'price'],
     )]
-    private ?string $orderBy = 'created.asc';
+    private string $orderType = 'createdAt';
+
+    #[Assert\Choice(
+        choices: ['asc', 'desc'],
+    )]
+    private string $orderBy = 'desc';
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getColor(): ?string
+    public function getColor()
     {
         return $this->color;
     }
 
     /**
-     * @param string|null $color
+     * @param mixed $color
      */
-    public function setColor(?string $color): void
+    public function setColor($color): void
     {
         $this->color = $color;
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getBrand(): ?string
+    public function getBrand()
     {
         return $this->brand;
     }
 
     /**
-     * @param string|null $brand
+     * @param mixed $brand
      */
-    public function setBrand(?string $brand): void
+    public function setBrand($brand): void
     {
         $this->brand = $brand;
     }
 
     /**
-     * @return int|null
+     * @return mixed
      */
-    public function getSeats(): ?int
+    public function getSeats()
     {
         return $this->seats;
     }
 
     /**
-     * @param int|null $seats
+     * @param mixed $seats
      */
-    public function setSeats(?int $seats): void
+    public function setSeats($seats): void
     {
         $this->seats = $seats;
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getLimit(): ?int
+    public function getLimit(): int
     {
         return $this->limit;
     }
 
     /**
-     * @param int|null $limit
+     * @param int $limit
      */
-    public function setLimit(?int $limit = 10): void
+    public function setLimit(int $limit): void
     {
         $this->limit = $limit;
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getOrderBy(): ?string
+    public function getOrderType(): string
+    {
+        return $this->orderType;
+    }
+
+    /**
+     * @param string $orderType
+     */
+    public function setOrderType(string $orderType): void
+    {
+        $this->orderType = $orderType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderBy(): string
     {
         return $this->orderBy;
     }
 
     /**
-     * @param string|null $orderBy
+     * @param string $orderBy
      */
-    public function setOrderBy(?string $orderBy): void
+    public function setOrderBy(string $orderBy): void
     {
         $this->orderBy = $orderBy;
     }

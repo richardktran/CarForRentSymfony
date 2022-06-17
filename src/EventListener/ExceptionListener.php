@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use App\Constants\ExceptionMessageConstants;
 use App\Traits\JsonResponseTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,17 +18,17 @@ class ExceptionListener
     public function onKernelException(ExceptionEvent $event)
     {
         $exception = $event->getThrowable();
-        if ($exception instanceof UnauthorizedHttpException) {
-            $response = $this->error("Unauthorized", $exception->getStatusCode());
+        if ($exception instanceof ValidatorException) {
+            $response = $this->error(ExceptionMessageConstants::BAD_REQUEST, $exception->getCode());
+        } elseif ($exception instanceof UnauthorizedHttpException) {
+            $response = $this->error(ExceptionMessageConstants::UNAUTHORIZED, $exception->getStatusCode());
         } elseif ($exception instanceof HttpExceptionInterface) {
             $response = $this->error($exception->getMessage(), $exception->getStatusCode());
-        } elseif ($exception instanceof ValidatorException) {
-            $response = $this->error($exception->getMessage(), $exception->getCode());
         } else {
             $response = $this->error($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        // sends the modified response object to the event
+
         $event->setResponse($response);
     }
 }
