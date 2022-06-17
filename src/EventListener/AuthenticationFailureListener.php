@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use App\Constants\ExceptionMessageConstants;
 use App\Traits\JsonResponseTrait;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationFailureEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse;
@@ -12,9 +13,9 @@ class AuthenticationFailureListener
 {
     use JsonResponseTrait;
 
-    public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event)
+    public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event): void
     {
-        $response = $this->error('Credentials invalid', Response::HTTP_BAD_REQUEST);
+        $response = $this->error(ExceptionMessageConstants::CREDENTIALS_INVALID, Response::HTTP_BAD_REQUEST);
 
         $event->setResponse($response);
     }

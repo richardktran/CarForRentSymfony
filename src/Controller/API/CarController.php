@@ -7,16 +7,16 @@ use App\Repository\CarRepository;
 use App\Request\CarRequest;
 use App\Service\CarService;
 use App\Traits\JsonResponseTrait;
+use App\Transformer\CarTransformer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/cars')]
+#[Route('/cars', name: 'car_')]
 class CarController extends AbstractController
 {
     use JsonResponseTrait;
@@ -28,24 +28,32 @@ class CarController extends AbstractController
         $this->carService = $carService;
     }
 
-    #[Route('/', name: 'list_car')]
-    public function index(Request $request, ValidatorInterface $validator, CarRequest $carRequest): JsonResponse
-    {
+    #[Route('/', name: 'list')]
+    public function index(
+        Request $request,
+        ValidatorInterface $validator,
+        CarRequest $carRequest,
+        CarTransformer $carTransformer
+    ): JsonResponse {
         $filters = $request->query->all();
+
         $carRequest = $carRequest->fromArray($filters);
-        $validator->validate($carRequest);
+        $error = $validator->validate($carRequest);
+        if (count($error) > 0) {
+            throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
+        }
         $cars = $this->carService->findAll($carRequest);
         $result = [];
         foreach ($cars as $car) {
-            $result[] = $car->jsonSerialize();
+            $result[] = $carTransformer->toArray($car);
         }
 
         return $this->success($result);
     }
 
-    #[Route('/{id}', name: 'car_detail')]
-    public function detail(Car $car): JsonResponse
+    #[Route('/{id}', name: 'detail')]
+    public function detail(Car $car, CarTransformer $carTransformer): JsonResponse
     {
-        return $this->success($car->jsonSerialize());
+        return $this->success($carTransformer->toArray($car));
     }
 }

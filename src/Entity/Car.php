@@ -8,12 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CarRepository::class)]
 class Car extends BaseEntity
 {
-
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime("now");
-    }
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -51,6 +45,10 @@ class Car extends BaseEntity
     #[ORM\JoinColumn(nullable: false)]
     private $createdUser;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime("now");
+    }
 
     public function getId(): ?int
     {
@@ -176,21 +174,5 @@ class Car extends BaseEntity
 
         return $this;
     }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'description' => $this->getDescription(),
-            'color' => $this->getColor(),
-            'brand' => $this->getBrand(),
-            'price' => $this->getPrice(),
-            'seats' => $this->getSeats(),
-            'year' => $this->getYear(),
-            'thumbnail' => $this->getThumbnail()->jsonSerialize(),
-            'createdUser' => $this->getCreatedUser()->jsonSerialize()
-        ];
-    }
-
+    
 }

@@ -8,11 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image extends BaseEntity
 {
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime("now");
-    }
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -23,6 +18,11 @@ class Image extends BaseEntity
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime("now");
+    }
 
     public function getId(): ?int
     {
@@ -53,11 +53,4 @@ class Image extends BaseEntity
         return $this;
     }
 
-    public function jsonSerialize(): array
-    {
-        return [
-            'id' => $this->getId(),
-            'path' => $this->getPath()
-        ];
-    }
 }

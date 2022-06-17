@@ -30,42 +30,29 @@ class BaseRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    protected function sortBy(QueryBuilder $cars, string $orderBy): QueryBuilder
-    {
-        if (empty($orderBy)) {
-            return $cars;
-        }
-        $orderBy = explode('.', $orderBy);
-        $field = $orderBy[0];
-        $order = $orderBy[1];
-        switch ($field) {
-            case 'created':
-                $cars = $cars->orderBy($this->alias . ".createdAt", $order);
-                break;
 
-            case 'price':
-                $cars = $cars->orderBy($this->alias . ".$field", $order);
-                break;
-            default:
-                break;
-        }
-        return $cars;
-    }
-
-
-    protected function filter(QueryBuilder $cars, string $field, mixed $value): QueryBuilder
+    protected function filter(QueryBuilder $query, string $field, mixed $value): QueryBuilder
     {
         if (empty($value)) {
-            return $cars;
+            return $query;
         }
-        return $cars->where($this->alias . ".$field = :$field")->setParameter($field, $value);
+        return $query->where($this->alias . ".$field = :$field")->setParameter($field, $value);
     }
 
-    protected function andFilter(QueryBuilder $cars, string $field, mixed $value): QueryBuilder
+    protected function andFilter(QueryBuilder $query, string $field, mixed $value): QueryBuilder
     {
         if (empty($value)) {
-            return $cars;
+            return $query;
         }
-        return $cars->andWhere($this->alias . ".$field = :$field")->setParameter($field, $value);
+        return $query->andWhere($this->alias . ".$field = :$field")->setParameter($field, $value);
+    }
+
+    protected function sortBy(QueryBuilder $query, string $orderType, string $orderBy): QueryBuilder
+    {
+        if (empty($orderBy) || empty($orderType)) {
+            return $query;
+        }
+
+        return $query->orderBy(static::CAR_ALIAS . ".$orderType", $orderBy);
     }
 }
