@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Car;
 use App\Request\CarRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,7 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CarRepository extends BaseRepository
 {
-    const CAR_ALIAS = 'c';
+    public const CAR_ALIAS = 'c';
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -36,6 +35,4 @@ class CarRepository extends BaseRepository
 
         return $cars->getQuery()->getResult();
     }
-
-
 }

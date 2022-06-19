@@ -3,10 +3,7 @@
 namespace App\Service;
 
 use App\Repository\CarRepository;
-use App\Entity\Car;
 use App\Request\CarRequest;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 
 class CarService
 {
@@ -21,6 +18,4 @@ class CarService
     {
         return $this->carRepository->all($carRequest);
     }
-
-
 }

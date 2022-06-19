@@ -30,7 +30,7 @@ class UserFixtures extends Fixture
             $user->setRoles($roles);
 
             $manager->persist($user);
-            $this->addReference('user_' . $id, $user);
+            $this->addReference('user_'.$id, $user);
         }
 
         $manager->flush();

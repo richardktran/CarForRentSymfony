@@ -11,8 +11,9 @@ trait JsonResponseTrait
     {
         $dataResponse = [
             'status' => 'success',
-            'data' => $data
+            'data' => $data,
         ];
+
         return new JsonResponse($dataResponse, $status, $headers);
     }
 
@@ -20,8 +21,9 @@ trait JsonResponseTrait
     {
         $dataResponse = [
             'status' => 'error',
-            'message' => $message
+            'message' => $message,
         ];
+
         return new JsonResponse($dataResponse, $status, $headers);
     }
 }

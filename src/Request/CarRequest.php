@@ -6,13 +6,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CarRequest extends BaseRequest
 {
-    const DEFAULT_LIMIT = 10;
-    const SEATS_LIST = [4, 7, 16];
-    const ORDER_TYPE_LIST = ['createdAt', 'price'];
-    const ORDER_BY_LIST = ['asc', 'desc'];
-    const DEFAULT_ORDER_TYPE = 'createdAt';
-    const DEFAULT_ORDER_BY = 'desc';
-    const DEFAULT_OFFSET = 0;
+    public const DEFAULT_LIMIT = 10;
+    public const SEATS_LIST = [4, 7, 16];
+    public const ORDER_TYPE_LIST = ['createdAt', 'price'];
+    public const ORDER_BY_LIST = ['asc', 'desc'];
+    public const DEFAULT_ORDER_TYPE = 'createdAt';
+    public const DEFAULT_ORDER_BY = 'desc';
+    public const DEFAULT_OFFSET = 0;
 
     #[Assert\Type('string')]
     private $color;
@@ -28,7 +28,6 @@ class CarRequest extends BaseRequest
 
     #[Assert\Type('integer')]
     private int $limit = self::DEFAULT_LIMIT;
-
 
     #[Assert\Choice(
         choices: self::ORDER_TYPE_LIST,
@@ -88,52 +87,33 @@ class CarRequest extends BaseRequest
         $this->seats = $seats;
     }
 
-    /**
-     * @return int
-     */
     public function getLimit(): int
     {
         return $this->limit;
     }
 
-    /**
-     * @param int $limit
-     */
     public function setLimit(int $limit): void
     {
         $this->limit = $limit;
     }
 
-    /**
-     * @return string
-     */
     public function getOrderType(): string
     {
         return $this->orderType;
     }
 
-    /**
-     * @param string $orderType
-     */
     public function setOrderType(string $orderType): void
     {
         $this->orderType = $orderType;
     }
 
-    /**
-     * @return string
-     */
     public function getOrderBy(): string
     {
         return $this->orderBy;
     }
 
-    /**
-     * @param string $orderBy
-     */
     public function setOrderBy(string $orderBy): void
     {
         $this->orderBy = $orderBy;
     }
-    
 }

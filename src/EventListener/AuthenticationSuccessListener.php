@@ -6,9 +6,6 @@ use App\Entity\User;
 use App\Traits\JsonResponseTrait;
 use App\Transformer\UserTransformer;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class AuthenticationSuccessListener
 {
@@ -33,7 +30,7 @@ class AuthenticationSuccessListener
         $userJson['token'] = $token;
         $data = [
             'status' => 'success',
-            'data' => $userJson
+            'data' => $userJson,
         ];
 
         $event->setData($data);

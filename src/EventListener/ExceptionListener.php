@@ -4,7 +4,6 @@ namespace App\EventListener;
 
 use App\Constants\ExceptionMessageConstants;
 use App\Traits\JsonResponseTrait;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -27,7 +26,6 @@ class ExceptionListener
         } else {
             $response = $this->error($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
 
         $event->setResponse($response);
     }

@@ -24,7 +24,6 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
         parent::__construct($registry, User::class);
     }
 
-
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
