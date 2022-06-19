@@ -15,7 +15,7 @@ class ExceptionListener
 {
     use JsonResponseTrait;
 
-    public function onKernelException(ExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
         if ($exception instanceof ValidatorException) {

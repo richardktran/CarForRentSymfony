@@ -27,13 +27,13 @@ class CarRepository extends BaseRepository
 
     public function all(CarRequest $carRequest): array
     {
-
         $cars = $this->createQueryBuilder(static::CAR_ALIAS);
         $cars = $this->filter($cars, 'color', $carRequest->getColor());
         $cars = $this->andFilter($cars, 'brand', $carRequest->getBrand());
         $cars = $this->andFilter($cars, 'seats', $carRequest->getSeats());
         $cars = $this->sortBy($cars, $carRequest->getOrderType(), $carRequest->getOrderBy());
         $cars->setMaxResults($carRequest->getLimit())->setFirstResult(CarRequest::DEFAULT_OFFSET);
+
         return $cars->getQuery()->getResult();
     }
 

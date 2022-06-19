@@ -53,6 +53,6 @@ class BaseRepository extends ServiceEntityRepository
             return $query;
         }
 
-        return $query->orderBy(static::CAR_ALIAS . ".$orderType", $orderBy);
+        return $query->orderBy($this->alias . ".$orderType", $orderBy);
     }
 }
