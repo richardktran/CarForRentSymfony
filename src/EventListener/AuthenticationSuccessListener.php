@@ -2,7 +2,9 @@
 
 namespace App\EventListener;
 
+use App\Entity\User;
 use App\Traits\JsonResponseTrait;
+use App\Transformer\UserTransformer;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -12,22 +14,22 @@ class AuthenticationSuccessListener
 {
     use JsonResponseTrait;
 
-    private SerializerInterface $serializer;
+    private UserTransformer $userTransformer;
 
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(UserTransformer $userTransformer)
     {
-        $this->serializer = $serializer;
+        $this->userTransformer = $userTransformer;
     }
 
     public function onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event): void
     {
-        $token = $event->getData()['token'];
+        /**
+         * @var User $user
+         */
         $user = $event->getUser();
+        $token = $event->getData()['token'];
 
-        if (!$user instanceof UserInterface) {
-            return;
-        }
-        $userJson = $user->jsonSerialize();
+        $userJson = $this->userTransformer->toArray($user);
         $userJson['token'] = $token;
         $data = [
             'status' => 'success',

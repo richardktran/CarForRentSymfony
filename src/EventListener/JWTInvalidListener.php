@@ -11,13 +11,13 @@ class JWTInvalidListener
 {
     use JsonResponseTrait;
 
-    public function onJWTInvalid(JWTInvalidEvent $event)
+    public function onJWTInvalid(JWTInvalidEvent $event): void
     {
         $response = $this->error('Unauthorized', Response::HTTP_UNAUTHORIZED);
         $event->setResponse($response);
     }
 
-    public function onJWTNotFound(JWTNotFoundEvent $event)
+    public function onJWTNotFound(JWTNotFoundEvent $event): void
     {
         $response = $this->error('Unauthorized', Response::HTTP_UNAUTHORIZED);
         $event->setResponse($response);

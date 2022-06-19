@@ -3,7 +3,6 @@
 namespace App\Controller\API;
 
 use App\Entity\Car;
-use App\Repository\CarRepository;
 use App\Request\CarRequest;
 use App\Service\CarService;
 use App\Traits\JsonResponseTrait;
@@ -30,13 +29,13 @@ class CarController extends AbstractController
 
     #[Route('/', name: 'list')]
     public function index(
-        Request $request,
+        Request            $request,
         ValidatorInterface $validator,
-        CarRequest $carRequest,
-        CarTransformer $carTransformer
-    ): JsonResponse {
+        CarRequest         $carRequest,
+        CarTransformer     $carTransformer
+    ): JsonResponse
+    {
         $filters = $request->query->all();
-
         $carRequest = $carRequest->fromArray($filters);
         $error = $validator->validate($carRequest);
         if (count($error) > 0) {
