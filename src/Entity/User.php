@@ -12,9 +12,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
-
-    const ROLE_USER = 'ROLE_USER';
-    const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -38,7 +37,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime("now");
+        $this->createdAt = new \DateTime('now');
         $this->cars = new ArrayCollection();
     }
 
@@ -66,7 +65,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      */
     public function getUserIdentifier(): string
     {
-        return (string)$this->email;
+        return (string) $this->email;
     }
 
     /**
@@ -152,6 +151,4 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
 
         return $this;
     }
-
-
 }

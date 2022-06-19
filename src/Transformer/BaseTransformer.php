@@ -10,12 +10,13 @@ abstract class BaseTransformer
     {
         $result = [];
         foreach ($params as $value) {
-            $getProperty = 'get' . ucfirst($value);
+            $getProperty = 'get'.ucfirst($value);
             if (!method_exists($entity, $getProperty)) {
                 continue;
             }
             $result[$value] = $entity->{$getProperty}();
         }
+
         return $result;
     }
 }

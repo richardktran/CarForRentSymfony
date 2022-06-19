@@ -3,10 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Image;
-use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ImageFixtures extends Fixture
 {
@@ -22,7 +20,7 @@ class ImageFixtures extends Fixture
             $image->setPath($path);
 
             $manager->persist($image);
-            $this->addReference('image_' . $id, $image);
+            $this->addReference('image_'.$id, $image);
         }
 
         $manager->flush();

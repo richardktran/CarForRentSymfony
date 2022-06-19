@@ -30,13 +30,13 @@ class BaseRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-
     protected function filter(QueryBuilder $query, string $field, mixed $value): QueryBuilder
     {
         if (empty($value)) {
             return $query;
         }
-        return $query->where($this->alias . ".$field = :$field")->setParameter($field, $value);
+
+        return $query->where($this->alias.".$field = :$field")->setParameter($field, $value);
     }
 
     protected function andFilter(QueryBuilder $query, string $field, mixed $value): QueryBuilder
@@ -44,7 +44,8 @@ class BaseRepository extends ServiceEntityRepository
         if (empty($value)) {
             return $query;
         }
-        return $query->andWhere($this->alias . ".$field = :$field")->setParameter($field, $value);
+
+        return $query->andWhere($this->alias.".$field = :$field")->setParameter($field, $value);
     }
 
     protected function sortBy(QueryBuilder $query, string $orderType, string $orderBy): QueryBuilder
@@ -53,6 +54,6 @@ class BaseRepository extends ServiceEntityRepository
             return $query;
         }
 
-        return $query->orderBy($this->alias . ".$orderType", $orderBy);
+        return $query->orderBy($this->alias.".$orderType", $orderBy);
     }
 }

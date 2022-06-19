@@ -9,7 +9,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-
     #[Route('/login', name: 'login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
@@ -18,10 +17,11 @@ class SecurityController extends AbstractController
         }
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
+
         return $this->render('login/index.html.twig', [
             'controller_name' => 'SecurityController',
             'last_username' => $lastUsername,
-            'error' => $error
+            'error' => $error,
         ]);
     }
 
@@ -31,6 +31,7 @@ class SecurityController extends AbstractController
         if ($this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_admin');
         }
+
         return $this->redirectToRoute('profile');
     }
 

@@ -21,7 +21,7 @@ class Image extends BaseEntity
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime("now");
+        $this->createdAt = new \DateTime('now');
     }
 
     public function getId(): ?int
@@ -52,5 +52,4 @@ class Image extends BaseEntity
 
         return $this;
     }
-
 }

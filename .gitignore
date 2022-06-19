@@ -16,3 +16,9 @@
 ###< lexik/jwt-authentication-bundle ###
 
 /composer.lock
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+.php-cs-fixer.dist.php
+###< friendsofphp/php-cs-fixer ###
