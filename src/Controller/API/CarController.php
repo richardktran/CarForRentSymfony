@@ -5,6 +5,7 @@ namespace App\Controller\API;
 use App\Entity\Car;
 use App\Request\AddCarRequest;
 use App\Request\CarRequest;
+use App\Request\UpdateCarRequest;
 use App\Service\CarService;
 use App\Traits\JsonResponseTrait;
 use App\Transformer\CarTransformer;
@@ -74,12 +75,31 @@ class CarController extends AbstractController
         return $this->success($car);
     }
 
+    #[Route('/{id}', name: 'update', methods: ['PUT'])]
+    public function update(
+        Car $car,
+        Request $request,
+        UpdateCarRequest $updateCarRequest,
+        CarService $carService,
+        ValidatorInterface $validator,
+        CarTransformer $carTransformer
+    ): JsonResponse {
+        $requestBody = json_decode($request->getContent(), true);
+        $carRequest = $updateCarRequest->fromArray($requestBody);
+        $error = $validator->validate($carRequest);
+        if (count($error) > 0) {
+            throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
+        }
+        $car = $carService->update($car, $carRequest);
+        $car = $carTransformer->toArray($car);
+        return $this->success($car);
+    }
+
+
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(Car $car, CarService $carService, CarTransformer $carTransformer): JsonResponse
     {
         $carService->delete($car);
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
-
-
 }
