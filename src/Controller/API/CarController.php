@@ -50,7 +50,7 @@ class CarController extends AbstractController
         return $this->success($result);
     }
 
-    #[Route('/{id}', name: 'detail')]
+    #[Route('/{id}', name: 'detail', methods: ['GET'])]
     public function detail(Car $car, CarTransformer $carTransformer): JsonResponse
     {
         return $this->success($carTransformer->toArray($car));
@@ -73,4 +73,13 @@ class CarController extends AbstractController
         $car = $carTransformer->toArray($carService->add($carRequest));
         return $this->success($car);
     }
+
+    #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
+    public function delete(Car $car, CarService $carService, CarTransformer $carTransformer): JsonResponse
+    {
+        $carService->delete($car);
+        return $this->success([], Response::HTTP_NO_CONTENT);
+    }
+
+
 }

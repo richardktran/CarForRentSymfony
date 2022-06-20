@@ -30,4 +30,9 @@ class CarService
         $this->carRepository->save($car);
         return $car;
     }
+
+    public function delete(Car $car): void
+    {
+        $this->carRepository->remove($car);
+    }
 }
