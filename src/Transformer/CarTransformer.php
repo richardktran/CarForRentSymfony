@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Security;
 class CarTransformer extends BaseTransformer
 {
     public const ALLOW = ['id', 'name', 'description', 'color', 'brand', 'price', 'seats', 'year'];
-    
+
     public function toArray(Car $car): array
     {
         $result = $this->transform($car, static::ALLOW);
@@ -21,5 +21,4 @@ class CarTransformer extends BaseTransformer
 
         return $result;
     }
-
 }
