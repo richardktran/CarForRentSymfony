@@ -10,7 +10,7 @@ use App\Request\AddCarRequest;
 use App\Request\UpdateCarRequest;
 use Symfony\Component\Security\Core\Security;
 
-class UpdateCarRequestToCar
+class PutCarRequestToCar
 {
     private ImageRepository $imageRepository;
     private UserRepository $userRepository;
@@ -21,18 +21,18 @@ class UpdateCarRequestToCar
         $this->userRepository = $userRepository;
     }
 
-    public function mapper(Car $car, UpdateCarRequest $addCarRequest): Car
+    public function mapper(Car $car, UpdateCarRequest $putCarRequest): Car
     {
-        $createdUser = $this->userRepository->find($addCarRequest->getCreatedUser());
-        $thumbnailId = $addCarRequest->getThumbnail();
+        $createdUser = $this->userRepository->find($putCarRequest->getCreatedUser());
+        $thumbnailId = $putCarRequest->getThumbnail();
         $thumbnail = $this->imageRepository->find($thumbnailId);
-        $car->setName($addCarRequest->getName())
-            ->setDescription($addCarRequest->getDescription())
-            ->setColor($addCarRequest->getColor())
-            ->setBrand($addCarRequest->getBrand())
-            ->setPrice($addCarRequest->getPrice())
-            ->setSeats($addCarRequest->getSeats())
-            ->setYear($addCarRequest->getYear())
+        $car->setName($putCarRequest->getName())
+            ->setDescription($putCarRequest->getDescription())
+            ->setColor($putCarRequest->getColor())
+            ->setBrand($putCarRequest->getBrand())
+            ->setPrice($putCarRequest->getPrice())
+            ->setSeats($putCarRequest->getSeats())
+            ->setYear($putCarRequest->getYear())
             ->setCreatedUser($createdUser)
             ->setThumbnail($thumbnail);
         return $car;
