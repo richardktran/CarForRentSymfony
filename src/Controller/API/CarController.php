@@ -90,7 +90,27 @@ class CarController extends AbstractController
         if (count($error) > 0) {
             throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
         }
-        $car = $carService->update($car, $carRequest);
+        $car = $carService->put($car, $carRequest);
+        $car = $carTransformer->toArray($car);
+        return $this->success($car);
+    }
+
+    #[Route('/{id}', name: 'update_patch', methods: ['PATCH'])]
+    public function patch(
+        Car $car,
+        Request $request,
+        UpdateCarRequest $updateCarRequest,
+        CarService $carService,
+        ValidatorInterface $validator,
+        CarTransformer $carTransformer
+    ): JsonResponse {
+        $requestBody = json_decode($request->getContent(), true);
+        $carRequest = $updateCarRequest->fromArray($requestBody);
+        $error = $validator->validate($carRequest);
+        if (count($error) > 0) {
+            throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
+        }
+        $car = $carService->patch($car, $carRequest);
         $car = $carTransformer->toArray($car);
         return $this->success($car);
     }

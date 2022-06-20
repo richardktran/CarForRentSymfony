@@ -4,7 +4,8 @@ namespace App\Service;
 
 use App\Entity\Car;
 use App\Mapper\AddCarRequestToCar;
-use App\Mapper\UpdateCarRequestToCar;
+use App\Mapper\PatchCarRequestToCar;
+use App\Mapper\PutCarRequestToCar;
 use App\Repository\CarRepository;
 use App\Request\AddCarRequest;
 use App\Request\CarRequest;
@@ -14,16 +15,19 @@ class CarService
 {
     private CarRepository $carRepository;
     private AddCarRequestToCar $addCarRequestToCar;
-    private UpdateCarRequestToCar $updateCarRequestToCar;
+    private PutCarRequestToCar $putCarRequestToCar;
+    private PatchCarRequestToCar $patchCarRequestToCar;
 
     public function __construct(
         CarRepository $carRepository,
         AddCarRequestToCar $addCarRequestToCar,
-        UpdateCarRequestToCar $updateCarRequestToCar
+        PutCarRequestToCar $putCarRequestToCar,
+        PatchCarRequestToCar $patchCarRequestToCar
     ) {
         $this->carRepository = $carRepository;
         $this->addCarRequestToCar = $addCarRequestToCar;
-        $this->updateCarRequestToCar = $updateCarRequestToCar;
+        $this->putCarRequestToCar = $putCarRequestToCar;
+        $this->patchCarRequestToCar = $patchCarRequestToCar;
     }
 
     public function findAll(CarRequest $carRequest): array
@@ -38,9 +42,16 @@ class CarService
         return $car;
     }
 
-    public function update(Car $car, UpdateCarRequest $carRequest): Car
+    public function put(Car $car, UpdateCarRequest $carRequest): Car
     {
-        $updatedCar = $this->updateCarRequestToCar->mapper($car, $carRequest);
+        $updatedCar = $this->putCarRequestToCar->mapper($car, $carRequest);
+        $this->carRepository->save($updatedCar);
+        return $car;
+    }
+
+    public function patch(Car $car, UpdateCarRequest $carRequest): Car
+    {
+        $updatedCar = $this->patchCarRequestToCar->mapper($car, $carRequest);
         $this->carRepository->save($updatedCar);
         return $car;
     }
