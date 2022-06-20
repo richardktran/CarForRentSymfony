@@ -3,20 +3,20 @@
 namespace App\Service;
 
 use App\Entity\Car;
+use App\Mapper\AddCarRequestToCar;
 use App\Repository\CarRepository;
 use App\Request\AddCarRequest;
 use App\Request\CarRequest;
-use App\Transformer\CarTransformer;
 
 class CarService
 {
     private CarRepository $carRepository;
-    private CarTransformer $carTransformer;
+    private AddCarRequestToCar $addCarRequestToCar;
 
-    public function __construct(CarRepository $carRepository, CarTransformer $carTransformer)
+    public function __construct(CarRepository $carRepository, AddCarRequestToCar $addCarRequestToCar)
     {
         $this->carRepository = $carRepository;
-        $this->carTransformer = $carTransformer;
+        $this->addCarRequestToCar = $addCarRequestToCar;
     }
 
     public function findAll(CarRequest $carRequest): array
@@ -26,7 +26,7 @@ class CarService
 
     public function add(AddCarRequest $carRequest): Car
     {
-        $car = $this->carTransformer->requestToEntity($carRequest);
+        $car = $this->addCarRequestToCar->mapper($carRequest);
         $this->carRepository->save($car);
         return $car;
     }
