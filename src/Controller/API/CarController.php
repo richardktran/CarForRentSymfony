@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\Entity\Car;
+use App\Request\AddCarRequest;
 use App\Request\CarRequest;
 use App\Service\CarService;
 use App\Traits\JsonResponseTrait;
@@ -27,7 +28,7 @@ class CarController extends AbstractController
         $this->carService = $carService;
     }
 
-    #[Route('/', name: 'list')]
+    #[Route('/', name: 'list', methods: ['GET'])]
     public function index(
         Request $request,
         ValidatorInterface $validator,
@@ -53,5 +54,23 @@ class CarController extends AbstractController
     public function detail(Car $car, CarTransformer $carTransformer): JsonResponse
     {
         return $this->success($carTransformer->toArray($car));
+    }
+
+    #[Route('/', name: 'add', methods: ['POST'])]
+    public function store(
+        Request $request,
+        AddCarRequest $addCarRequest,
+        ValidatorInterface $validator,
+        CarService $carService,
+        CarTransformer $carTransformer
+    ): JsonResponse {
+        $requestBody = json_decode($request->getContent(), true);
+        $carRequest = $addCarRequest->fromArray($requestBody);
+        $error = $validator->validate($carRequest);
+        if (count($error) > 0) {
+            throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
+        }
+        $car = $carTransformer->toArray($carService->add($carRequest));
+        return $this->success($car);
     }
 }
