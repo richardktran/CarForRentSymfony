@@ -3,12 +3,9 @@
 namespace App\Mapper;
 
 use App\Entity\Car;
-use App\Entity\User;
 use App\Repository\ImageRepository;
 use App\Repository\UserRepository;
-use App\Request\AddCarRequest;
 use App\Request\UpdateCarRequest;
-use Symfony\Component\Security\Core\Security;
 
 class PatchCarRequestToCar
 {
@@ -24,12 +21,12 @@ class PatchCarRequestToCar
     public function mapper(Car $car, UpdateCarRequest $updateCarRequest): Car
     {
         $createdUserId = $updateCarRequest->getCreatedUser();
-        if ($createdUserId !== null) {
+        if (null !== $createdUserId) {
             $createdUser = $this->userRepository->find($createdUserId);
             $car->setCreatedUser($createdUser);
         }
         $thumbnailId = $updateCarRequest->getThumbnail();
-        if ($thumbnailId !== null) {
+        if (null !== $thumbnailId) {
             $thumbnail = $this->imageRepository->find($thumbnailId);
             $car->setThumbnail($thumbnail);
         }
@@ -41,6 +38,7 @@ class PatchCarRequestToCar
             ->setPrice($updateCarRequest->getPrice() ?? $car->getPrice())
             ->setSeats($updateCarRequest->getSeats() ?? $car->getSeats())
             ->setYear($updateCarRequest->getYear() ?? $car->getYear());
+
         return $car;
     }
 }

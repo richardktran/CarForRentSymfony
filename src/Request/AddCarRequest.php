@@ -102,7 +102,6 @@ class AddCarRequest extends BaseRequest
         $this->brand = $brand;
     }
 
-
     /**
      * @return mixed
      */
@@ -119,17 +118,11 @@ class AddCarRequest extends BaseRequest
         $this->seats = $seats;
     }
 
-    /**
-     * @return float
-     */
     public function getPrice(): float
     {
         return $this->price;
     }
 
-    /**
-     * @param float $price
-     */
     public function setPrice(float $price): void
     {
         $this->price = $price;

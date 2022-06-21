@@ -3,12 +3,9 @@
 namespace App\Mapper;
 
 use App\Entity\Car;
-use App\Entity\User;
 use App\Repository\ImageRepository;
 use App\Repository\UserRepository;
-use App\Request\AddCarRequest;
 use App\Request\UpdateCarRequest;
-use Symfony\Component\Security\Core\Security;
 
 class PutCarRequestToCar
 {
@@ -35,6 +32,7 @@ class PutCarRequestToCar
             ->setYear($putCarRequest->getYear())
             ->setCreatedUser($createdUser)
             ->setThumbnail($thumbnail);
+
         return $car;
     }
 }

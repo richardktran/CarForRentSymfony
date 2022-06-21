@@ -9,12 +9,12 @@ use App\Request\UpdateCarRequest;
 use App\Service\CarService;
 use App\Traits\JsonResponseTrait;
 use App\Transformer\CarTransformer;
+use App\Transformer\ValidatorTransformer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/cars', name: 'car_')]
@@ -22,11 +22,11 @@ class CarController extends AbstractController
 {
     use JsonResponseTrait;
 
-    private CarService $carService;
+    private ValidatorTransformer $validatorTransformer;
 
-    public function __construct(CarService $carService)
+    public function __construct(ValidatorTransformer $validatorTransformer)
     {
-        $this->carService = $carService;
+        $this->validatorTransformer = $validatorTransformer;
     }
 
     #[Route('/', name: 'list', methods: ['GET'])]
@@ -34,21 +34,21 @@ class CarController extends AbstractController
         Request $request,
         ValidatorInterface $validator,
         CarRequest $carRequest,
+        CarService $carService,
         CarTransformer $carTransformer
     ): JsonResponse {
         $filters = $request->query->all();
         $carRequest = $carRequest->fromArray($filters);
-        $error = $validator->validate($carRequest);
-        if (count($error) > 0) {
-            throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
-        }
-        $cars = $this->carService->findAll($carRequest);
-        $result = [];
-        foreach ($cars as $car) {
-            $result[] = $carTransformer->toArray($car);
-        }
+        $errors = $validator->validate($carRequest);
+        if (count($errors) > 0) {
+            $errorsTransformer = $this->validatorTransformer->toArray($errors);
 
-        return $this->success($result);
+            return $this->error($errorsTransformer);
+        }
+        $cars = $carService->findAll($carRequest);
+        $carsResult = $carTransformer->listToArray($cars);
+
+        return $this->success($carsResult);
     }
 
     #[Route('/{id}', name: 'detail', methods: ['GET'])]
@@ -67,11 +67,14 @@ class CarController extends AbstractController
     ): JsonResponse {
         $requestBody = json_decode($request->getContent(), true);
         $carRequest = $addCarRequest->fromArray($requestBody);
-        $error = $validator->validate($carRequest);
-        if (count($error) > 0) {
-            throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
+        $errors = $validator->validate($carRequest);
+        if (count($errors) > 0) {
+            $errorsTransformer = $this->validatorTransformer->toArray($errors);
+
+            return $this->error($errorsTransformer);
         }
         $car = $carTransformer->toArray($carService->add($carRequest));
+
         return $this->success($car);
     }
 
@@ -86,12 +89,15 @@ class CarController extends AbstractController
     ): JsonResponse {
         $requestBody = json_decode($request->getContent(), true);
         $carRequest = $updateCarRequest->fromArray($requestBody);
-        $error = $validator->validate($carRequest);
-        if (count($error) > 0) {
-            throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
+        $errors = $validator->validate($carRequest);
+        if (count($errors) > 0) {
+            $errorsTransformer = $this->validatorTransformer->toArray($errors);
+
+            return $this->error($errorsTransformer);
         }
         $car = $carService->put($car, $carRequest);
         $car = $carTransformer->toArray($car);
+
         return $this->success($car);
     }
 
@@ -106,20 +112,23 @@ class CarController extends AbstractController
     ): JsonResponse {
         $requestBody = json_decode($request->getContent(), true);
         $carRequest = $updateCarRequest->fromArray($requestBody);
-        $error = $validator->validate($carRequest);
-        if (count($error) > 0) {
-            throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
+        $errors = $validator->validate($carRequest);
+        if (count($errors) > 0) {
+            $errorsTransformer = $this->validatorTransformer->toArray($errors);
+
+            return $this->error($errorsTransformer);
         }
         $car = $carService->patch($car, $carRequest);
         $car = $carTransformer->toArray($car);
+
         return $this->success($car);
     }
-
 
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(Car $car, CarService $carService, CarTransformer $carTransformer): JsonResponse
     {
         $carService->delete($car);
+
         return $this->success([], Response::HTTP_NO_CONTENT);
     }
 }

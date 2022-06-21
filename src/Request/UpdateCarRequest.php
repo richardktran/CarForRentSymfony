@@ -102,7 +102,6 @@ class UpdateCarRequest extends BaseRequest
         $this->brand = $brand;
     }
 
-
     /**
      * @return mixed
      */

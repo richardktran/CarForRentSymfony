@@ -3,11 +3,6 @@
 namespace App\Transformer;
 
 use App\Entity\Car;
-use App\Entity\User;
-use App\Repository\ImageRepository;
-use App\Repository\UserRepository;
-use App\Request\AddCarRequest;
-use Symfony\Component\Security\Core\Security;
 
 class CarTransformer extends BaseTransformer
 {

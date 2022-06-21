@@ -11,6 +11,9 @@ abstract class BaseRequest
             if (!method_exists($this, $action) || empty($request)) {
                 continue;
             }
+            if (is_numeric($request)) {
+                $request = (int) $request;
+            }
             $this->{$action}($request);
         }
 

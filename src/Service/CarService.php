@@ -39,6 +39,7 @@ class CarService
     {
         $car = $this->addCarRequestToCar->mapper($carRequest);
         $this->carRepository->save($car);
+
         return $car;
     }
 
@@ -46,6 +47,7 @@ class CarService
     {
         $updatedCar = $this->putCarRequestToCar->mapper($car, $carRequest);
         $this->carRepository->save($updatedCar);
+
         return $car;
     }
 
@@ -53,6 +55,7 @@ class CarService
     {
         $updatedCar = $this->patchCarRequestToCar->mapper($car, $carRequest);
         $this->carRepository->save($updatedCar);
+
         return $car;
     }
 
