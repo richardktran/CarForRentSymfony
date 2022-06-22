@@ -20,8 +20,9 @@ class AddCarRequest extends BaseRequest
     #[Assert\Type('string')]
     private $brand;
 
-    #[Assert\Type('float')]
-    private float $price;
+    #[Assert\Type('numeric')]
+    #[Assert\PositiveOrZero]
+    private $price;
 
     #[Assert\Type('integer')]
     #[Assert\Choice(
@@ -30,6 +31,7 @@ class AddCarRequest extends BaseRequest
     private $seats;
 
     #[Assert\Type('integer')]
+    #[Assert\PositiveOrZero]
     private $year;
 
     #[Assert\Type('integer')]
@@ -118,12 +120,12 @@ class AddCarRequest extends BaseRequest
         $this->seats = $seats;
     }
 
-    public function getPrice(): float
+    public function getPrice()
     {
         return $this->price;
     }
 
-    public function setPrice(float $price): void
+    public function setPrice(mixed $price): void
     {
         $this->price = $price;
     }

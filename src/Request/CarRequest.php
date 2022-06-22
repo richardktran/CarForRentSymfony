@@ -20,10 +20,10 @@ class CarRequest extends BaseRequest
     #[Assert\Type('string')]
     private $brand;
 
-    #[Assert\Type('integer')]
     #[Assert\Choice(
         choices: self::SEATS_LIST,
     )]
+    #[Assert\Type('integer')]
     private $seats;
 
     #[Assert\Type('integer')]
@@ -84,7 +84,7 @@ class CarRequest extends BaseRequest
      */
     public function setSeats($seats): void
     {
-        $this->seats = $seats;
+        $this->seats = is_numeric($seats) ? (int)$seats : $seats;
     }
 
     public function getLimit(): int
