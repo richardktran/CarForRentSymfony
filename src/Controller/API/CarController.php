@@ -42,7 +42,6 @@ class CarController extends AbstractController
         $errors = $validator->validate($carRequest);
         if (count($errors) > 0) {
             $errorsTransformer = $this->validatorTransformer->toArray($errors);
-
             return $this->error($errorsTransformer);
         }
         $cars = $carService->findAll($carRequest);
