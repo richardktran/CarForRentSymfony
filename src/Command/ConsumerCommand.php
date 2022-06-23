@@ -4,6 +4,8 @@ namespace App\Command;
 
 use Aws\Exception\AwsException;
 use Aws\Sqs\SqsClient;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,8 +26,8 @@ class ConsumerCommand extends Command
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

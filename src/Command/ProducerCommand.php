@@ -42,7 +42,7 @@ class ProducerCommand extends Command
             '============',
         ]);
         try {
-            $result = $this->sqsClient->sendMessage($params);
+            $this->sqsClient->sendMessage($params);
         } catch (AwsException $e) {
             error_log($e->getMessage());
         }
