@@ -22,3 +22,12 @@
 /.php-cs-fixer.cache
 .php-cs-fixer.dist.php
 ###< friendsofphp/php-cs-fixer ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+.phpunit.cache/
+phpunit.xml.dist
+coverage/
