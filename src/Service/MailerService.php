@@ -24,6 +24,7 @@ class MailerService
         $smtp = $this->emailConfig['smtp'];
         $mail = new PHPMailer();
         $mail->isSMTP();
+        $mail->CharSet = 'UTF-8';
         $mail->Host = $smtp['host'];
         $mail->SMTPAuth = true;
         $mail->Username = $this->emailConfig['username'];
