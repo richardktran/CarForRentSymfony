@@ -22,8 +22,7 @@ class MailerService
     public function send(string $customerEmail, string $customerName): void
     {
         $smtp = $this->emailConfig['smtp'];
-        $mail = new PHPMailer(true);
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail = new PHPMailer();
         $mail->isSMTP();
         $mail->Host = $smtp['host'];
         $mail->SMTPAuth = true;

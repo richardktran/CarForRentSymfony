@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\Service\MailerService;
 use App\Traits\JsonResponseTrait;
+use PHPMailer\PHPMailer\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,9 @@ class MailController extends AbstractController
 {
     use JsonResponseTrait;
 
+    /**
+     * @throws Exception
+     */
     #[Route('/mail/send', name: 'send_mail', methods: ['POST'])]
     public function index(MailerService $mailerService): JsonResponse
     {
