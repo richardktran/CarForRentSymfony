@@ -55,6 +55,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/api/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/mail/send, methods: 'POST', roles: PUBLIC_ACCESS }
         - { path: ^/api/image, roles: ROLE_ADMIN }
         - { path: ^/api/cars, methods: 'GET', roles: PUBLIC_ACCESS }
         - { path: ^/api/cars, roles: ROLE_ADMIN }
