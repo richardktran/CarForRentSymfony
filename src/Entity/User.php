@@ -35,10 +35,14 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(mappedBy: 'createdUser', targetEntity: Car::class)]
     private $cars;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rent::class)]
+    private $rents;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
         $this->cars = new ArrayCollection();
+        $this->rents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +150,36 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
             // set the owning side to null (unless already changed)
             if ($car->getCreatedUser() === $this) {
                 $car->setCreatedUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rent>
+     */
+    public function getRents(): Collection
+    {
+        return $this->rents;
+    }
+
+    public function addRent(Rent $rent): self
+    {
+        if (!$this->rents->contains($rent)) {
+            $this->rents[] = $rent;
+            $rent->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRent(Rent $rent): self
+    {
+        if ($this->rents->removeElement($rent)) {
+            // set the owning side to null (unless already changed)
+            if ($rent->getUser() === $this) {
+                $rent->setUser(null);
             }
         }
 
